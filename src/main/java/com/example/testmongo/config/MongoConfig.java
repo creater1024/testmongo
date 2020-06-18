@@ -26,7 +26,7 @@ import java.util.List;
 @Configuration
 public class MongoConfig extends AbstractMongoConfiguration{
 
-    @Value("${spring.data.mongodb.database}")
+//    @Value("${spring.data.mongodb.database}")
     private String mongoDataBaseName;
 
     @Bean(name = "MONGO_TRANSACTION_MANAGER")

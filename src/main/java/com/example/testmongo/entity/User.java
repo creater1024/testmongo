@@ -20,6 +20,8 @@ public class User {
     private String userName;
     @NotBlank
     private String password;
+    private Integer age;
+
     public User(String id, String userName){
         this.id=id;
         this.userName=userName;

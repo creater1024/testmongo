@@ -8,17 +8,18 @@ import com.mongodb.client.ClientSession;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UserService {
     @Autowired
     UserDao userDao;
@@ -31,13 +32,13 @@ public class UserService {
         List<Document> list=new ArrayList<>();
         Gson gson = new Gson();
         for (int i = 0; i < 5000; i++) {
-            User user = new User("collection" + i, "name" + i, "jklh" + i);
-            if (i == 4999) {
-                user.setPassword(null);
-            }
-            String json = gson.toJson(user);
-            Document doc = Document.parse(json);
-            list.add(doc);
+//            User user = new User("collection" + i, "name" + i, "jklh" + i);
+//            if (i == 4999) {
+//                user.setPassword(null);
+//            }
+//            String json = gson.toJson(user);
+//            Document doc = Document.parse(json);
+//            list.add(doc);
         }
         long start = System.currentTimeMillis();
         List<User> resUsers = null;
@@ -76,11 +77,11 @@ public class UserService {
     public void bathSave(Boolean rollBack) throws Exception {
         ArrayList<User> users = new ArrayList<User>();
         for (int i = 0; i < 5000; i++) {
-            User user = new User("collection"+i,"name"+i,"jklh"+i);
-            if(i==4999){
-                user.setPassword(null);
-            }
-            users.add(user);
+//            User user = new User("collection"+i,"name"+i,"jklh"+i);
+//            if(i==4999){
+//                user.setPassword(null);
+//            }
+//            users.add(user);
         }
         long start = System.currentTimeMillis();
         List<User> resUsers = null;
@@ -99,6 +100,27 @@ public class UserService {
         long end = System.currentTimeMillis();
         // System.out.println("resUsers.size:"+resUsers.size());
         System.out.println("批量插入耗时: "+(end-start)+" ms");
+    }
+
+
+
+    public void thread(){
+        User user =User.builder().userName("user").password("admin123").age(10).build();
+        Thread update= new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (user.getAge()<15){
+                    user.setAge(user.getAge()+1);
+                    System.out.println(user.getAge());
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        log.error("查询日志异常");
+                    }
+                }
+            }
+        });
+        update.start();
     }
 
 }

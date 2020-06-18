@@ -29,4 +29,9 @@ public class UserController {
     public void insertRollback() throws Exception {
         userService.bathSave(true);
     }
+
+    @GetMapping("/get")
+    public void get(){
+        userService.thread();
+    }
 }
