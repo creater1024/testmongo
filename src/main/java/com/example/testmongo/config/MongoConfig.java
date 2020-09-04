@@ -41,10 +41,10 @@ public class MongoConfig extends AbstractMongoConfiguration{
 
     @Override
     public MongoClient mongoClient() {
-        ServerAddress sa = new ServerAddress("10.95.14.38", 27017);
+        ServerAddress sa = new ServerAddress("10.44.87.93", 27017);
         List<ServerAddress> saList=new ArrayList<>();
         saList.add(sa);
-        saList.add(new ServerAddress("10.95.14.44",27017));
+        saList.add(new ServerAddress("10.44.90.6",27017));
         MongoCredential mongoCredential=MongoCredential.createCredential("admin", "admin", "ct123!@#".toCharArray());
         return new MongoClient(saList,mongoCredential, MongoClientOptions.builder().socketTimeout(200000).build());
 
