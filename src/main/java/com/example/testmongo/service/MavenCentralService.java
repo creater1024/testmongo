@@ -22,10 +22,7 @@ public class MavenCentralService {
     @Transactional(value = "MONGO_TRANSACTION_MANAGER", propagation = Propagation.REQUIRED,rollbackFor = {Exception.class})
     public void mavenCentralSave(int n) throws Exception {
         List<MavenCentral> mavenCentrals=mavenCentralDao.findAll();
-//        for(int i=0;(i+1)*10000<bugList.size();i++){
-//            List<Bug> list=bugList.subList(i,(i+1)*10000);
-//
-//        }
+
         long start = System.currentTimeMillis();
         try {
             mavenCentral1Dao.insertMaven(mavenCentrals);
