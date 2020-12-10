@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class BugController {
     @Autowired
     BugService bugService;
-    @GetMapping("/bug")
-    public void insert(int n){
-        bugService.insert(n);
-    }
 
     @GetMapping("/bugList")
     public void insertList(int n) throws Exception {
@@ -20,7 +16,7 @@ public class BugController {
     }
 
     @GetMapping("/bug1")
-    public void select(){
-        bugService.findBug();
+    public void select(String id){
+        bugService.findBug(id);
     }
 }

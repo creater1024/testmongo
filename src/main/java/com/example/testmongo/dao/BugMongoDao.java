@@ -6,8 +6,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
-public class BugDaoImpl {
+public class BugMongoDao {
     @Autowired
     MongoTemplate mongoTemplate;
 
@@ -16,4 +17,8 @@ public class BugDaoImpl {
     }
 
     public Bug selectBug(String id) {return mongoTemplate.findById(id,Bug.class);}
+
+    public List<Bug> insert(List<Bug> bugs) {
+        return (List<Bug>) mongoTemplate.insertAll(bugs);
+    }
 }

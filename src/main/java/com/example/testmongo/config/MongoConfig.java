@@ -1,6 +1,5 @@
 package com.example.testmongo.config;
 
-import com.fasterxml.jackson.databind.util.Converter;
 import com.mongodb.*;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,8 @@ import java.util.List;
 
 /**
  * 这里主要是开启mongo事务的配置 若不需要启用mongo事务则不需要这个config
- * @author muyuer 182443947@qq.com
+ * mongo事务需要至少搭建一个副本集，当前配置是直接在代码中写死了两个分片副本入口
+ * @author
  * @version 1.0
  * @date 2019-07-03 08:50
  */
@@ -28,6 +28,10 @@ public class MongoConfig extends AbstractMongoConfiguration{
 
     @Value("${spring.data.mongodb.database}")
     private String mongoDataBaseName;
+    @Value("${spring.data.mongodb.username}")
+    private String username;
+    @Value("${spring.data.mongodb.password}")
+    private String key;
 
     @Bean(name = "MONGO_TRANSACTION_MANAGER")
     MongoTransactionManager transactionManager(MongoDbFactory dbFactory) {
@@ -39,13 +43,17 @@ public class MongoConfig extends AbstractMongoConfiguration{
         return mongoDataBaseName;
     }
 
+    /**
+     * 配置mongo客户端
+     * @return
+     */
     @Override
     public MongoClient mongoClient() {
         ServerAddress sa = new ServerAddress("10.95.14.38", 27017);
         List<ServerAddress> saList=new ArrayList<>();
         saList.add(sa);
         saList.add(new ServerAddress("10.95.14.44",27017));
-        MongoCredential mongoCredential=MongoCredential.createCredential("admin", "admin", "ct123!@#".toCharArray());
+        MongoCredential mongoCredential=MongoCredential.createCredential(username, "admin", key.toCharArray());
         return new MongoClient(saList,mongoCredential, MongoClientOptions.builder().socketTimeout(200000).build());
 
     }
