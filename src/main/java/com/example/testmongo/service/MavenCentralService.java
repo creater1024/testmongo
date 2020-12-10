@@ -3,6 +3,7 @@ package com.example.testmongo.service;
 import com.example.testmongo.dao.MavenCentral1Dao;
 import com.example.testmongo.dao.MavenCentralDao;
 import com.example.testmongo.entity.MavenCentral;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Slf4j
 public class MavenCentralService {
     @Autowired
     MavenCentralDao mavenCentralDao;
@@ -29,12 +31,11 @@ public class MavenCentralService {
             mavenCentral1Dao.insertMaven(mavenCentrals);
 
         } catch (Exception e) {
-            System.out.println("异常了:"+e);
-            // 插入id与库中重复的话会报 org.springframework.dao.DuplicateKeyException 异常
+            log.error("插入数据异常", e);
         }
         long end = System.currentTimeMillis();
-        // System.out.println("resUsers.size:"+resUsers.size());
-        System.out.println("批量插入耗时: "+(end-start)+" ms");
+
+        log.info("批量插入耗时: {} ms ", end-start);
         if(1==n){
             throw new Exception("测试回滚");
         }
